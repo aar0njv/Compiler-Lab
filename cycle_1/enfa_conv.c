@@ -134,8 +134,6 @@ int main() {
     }
 
 
-    // -------- PRINT NFA TRANSITION TABLE --------
-
     printf("\n--- NFA without Epsilon Transitions ---\n");
 
     printf("%-15s", "State");
