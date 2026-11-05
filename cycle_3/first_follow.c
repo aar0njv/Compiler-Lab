@@ -38,11 +38,11 @@ void findFirst(char first[], char symbol) {
                     add(first, temp[k]);
             }
 
-            if (strchr(temp, '#') == NULL)
+            if (strchr(temp, 'e') == NULL)
                 break;
 
             if (prod[i][j + 1] == '\0')
-                add(first, '#');
+                add(first, 'e');
         }
     }
 }
@@ -65,10 +65,10 @@ void findFollow(char follow[], char symbol) {
                 findFirst(temp, prod[i][next]);
 
                 for (int k = 0; temp[k] != '\0'; k++) {
-                    if (temp[k] != '#')
+                    if (temp[k] != 'e')
                         add(follow, temp[k]);
                 }
-                if (strchr(temp, '#') == NULL)
+                if (strchr(temp, 'e') == NULL)
                     break;
                 next++;
             }
@@ -93,7 +93,7 @@ int main() {
     printf("Enter number of productions: ");
     scanf("%d", &n);
 
-    printf("Enter productions (A=aB or A=#):\n");
+    printf("Enter productions (A=aB or A=e):\n");
 
     for (int i = 0; i < n; i++) {
 
