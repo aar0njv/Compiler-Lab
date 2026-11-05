@@ -2,7 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 
-char grammar[20][20];
+char prod[20][20];
 int n;
 
 /* Add symbol to a set if it is not already present */
@@ -15,72 +15,71 @@ void add(char set[], char ch) {
 }
 
 /* Find FIRST of a symbol */
-void findFirst(char result[], char symbol) {
+void findFirst(char first[], char symbol) {
     if (!isupper(symbol)) {
-        add(result, symbol);
+        add(first, symbol);
         return;
     }
 
     for (int i = 0; i < n; i++) {
-        if (grammar[i][0] != symbol)
+        if (prod[i][0] != symbol)
             continue;
         
-        if (grammar[i][2] == '#') {
-            add(result, '#');
+        if (prod[i][2] == 'e') {
+            add(first, 'e');
             continue;
         }
 
-        for (int j = 2; grammar[i][j] != '\0'; j++) {
+        for (int j = 2; prod[i][j] != '\0'; j++) {
             char temp[20] = "";
-            findFirst(temp, grammar[i][j]);
+            findFirst(temp, prod[i][j]);
             for (int k = 0; temp[k] != '\0'; k++) {
-                if (temp[k] != '#')
-                    add(result, temp[k]);
+                if (temp[k] != 'e')
+                    add(first, temp[k]);
             }
 
             if (strchr(temp, '#') == NULL)
                 break;
 
-            if (grammar[i][j + 1] == '\0')
-                add(result, '#');
+            if (prod[i][j + 1] == '\0')
+                add(first, '#');
         }
     }
 }
 
-void findFollow(char result[], char symbol) {
-    if (grammar[0][0] == symbol)
-        add(result, '$');
+void findFollow(char follow[], char symbol) {
+    if (prod[0][0] == symbol)
+        add(follow, '$');
 
     for (int i = 0; i < n; i++) {
 
-        for (int j = 2; grammar[i][j] != '\0'; j++) {
+        for (int j = 2; prod[i][j] != '\0'; j++) {
 
-            if (grammar[i][j] != symbol)
+            if (prod[i][j] != symbol)
                 continue;
 
             int next = j + 1;
-            while (grammar[i][next] != '\0') {
+            while (prod[i][next] != '\0') {
 
                 char temp[20] = "";
-                findFirst(temp, grammar[i][next]);
+                findFirst(temp, prod[i][next]);
 
                 for (int k = 0; temp[k] != '\0'; k++) {
                     if (temp[k] != '#')
-                        add(result, temp[k]);
+                        add(follow, temp[k]);
                 }
                 if (strchr(temp, '#') == NULL)
                     break;
                 next++;
             }
 
-            if (grammar[i][next] == '\0' &&
-                grammar[i][0] != symbol) {
+            if (prod[i][next] == '\0' && prod[i][0] != symbol) {
 
                 char temp[20] = "";
-                findFollow(temp, grammar[i][0]);
+                findFollow(temp, prod[i][0]);
 
                 for (int k = 0; temp[k] != '\0'; k++)
-                    add(result, temp[k]);
+                    add(follow, temp[k]);
             }
         }
     }
@@ -98,9 +97,9 @@ int main() {
 
     for (int i = 0; i < n; i++) {
 
-        scanf("%s", grammar[i]);
+        scanf("%s", prod[i]);
 
-        char symbol = grammar[i][0];
+        char symbol = prod[i][0];
 
         if (strchr(nonTerminals, symbol) == NULL) {
             nonTerminals[nonTerminalCount++] = symbol;
