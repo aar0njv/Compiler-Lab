@@ -10,7 +10,7 @@ int main() {
     char alphabet[10];
 
     int e_closure[20][20] = {0};
-    int e-nfa[20][10][20] = {0};
+    int e_nfa[20][10][20] = {0};
     int nfa[20][10][20] = {0};
 
 
@@ -29,7 +29,7 @@ int main() {
     // Every state belongs to its own epsilon closure
 
     for (int i = 0; i < states; i++) {
-        closure[i][i] = 1;
+        e_closure[i][i] = 1;
     }
 
     printf("Enter the total number of transitions: ");
@@ -44,13 +44,13 @@ int main() {
     for (int i = 0; i < transitions; i++) {
         scanf("%d %c %d", &from, &input, &to);
         if (input == 'e') {
-            closure[from][to] = 1;
+            e_closure[from][to] = 1;
         }
         else {
             for (int j = 0; j < symbols; j++) {
 
                 if (alphabet[j] == input) {
-                    e-nfa[from][j][to] = 1;
+                    e_nfa[from][j][to] = 1;
                     break;
                 }
             }
@@ -60,8 +60,8 @@ int main() {
     for (int k = 0; k < states; k++) {
         for (int i = 0; i < states; i++) {
             for (int j = 0; j < states; j++) {
-                if (closure[i][k] && closure[k][j]) {
-                    closure[i][j] = 1;
+                if (e_closure[i][k] && e_closure[k][j]) {
+                    e_closure[i][j] = 1;
                 }
             }
         }
@@ -70,11 +70,11 @@ int main() {
     for (int state = 0; state < states; state++) {
         for (int symbol = 0; symbol < symbols; symbol++) {
             for (int c = 0; c < states; c++) {
-                if (closure[state][c]) {
+                if (e_closure[state][c]) {
                     for (int next = 0; next < states; next++) {
-                        if (e-nfa[c][symbol][next]) {
+                        if (e_nfa[c][symbol][next]) {
                             for (int final = 0; final < states; final++) {
-                                if (closure[next][final]) {
+                                if (e_closure[next][final]) {
                                     nfa[state][symbol][final] = 1;
                                 }
                             }
