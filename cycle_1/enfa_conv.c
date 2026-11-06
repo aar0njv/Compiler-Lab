@@ -9,9 +9,9 @@ int main() {
     char input;
     char alphabet[10];
 
-    int closure[20][20] = {0};
+    int e_closure[20][20] = {0};
+    int e-nfa[20][10][20] = {0};
     int nfa[20][10][20] = {0};
-    int result[20][10][20] = {0};
 
 
     // Input
@@ -50,7 +50,7 @@ int main() {
             for (int j = 0; j < symbols; j++) {
 
                 if (alphabet[j] == input) {
-                    nfa[from][j][to] = 1;
+                    e-nfa[from][j][to] = 1;
                     break;
                 }
             }
@@ -72,10 +72,10 @@ int main() {
             for (int c = 0; c < states; c++) {
                 if (closure[state][c]) {
                     for (int next = 0; next < states; next++) {
-                        if (nfa[c][symbol][next]) {
+                        if (e-nfa[c][symbol][next]) {
                             for (int final = 0; final < states; final++) {
                                 if (closure[next][final]) {
-                                    result[state][symbol][final] = 1;
+                                    nfa[state][symbol][final] = 1;
                                 }
                             }
                         }
@@ -105,7 +105,7 @@ int main() {
             printf("{ ");
             int empty = 1;
             for (int dest = 0; dest < states; dest++) {
-                if (result[state][symbol][dest]) {
+                if (nfa[state][symbol][dest]) {
                     printf("q%d ", dest);
                     empty = 0;
                 }
