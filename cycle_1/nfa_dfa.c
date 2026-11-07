@@ -29,7 +29,7 @@ int is_same_state(int a[], int b[]) {
 }
 
 // Add a new DFA state if it does not exist
-int add_dfa_state(int new_state[]) {
+void add_dfa_state(int new_state[]) {
 
     for (int i = 0; i < dfa_count; i++) {
         if (is_same_state(dfa_states[i], new_state))
@@ -39,7 +39,6 @@ int add_dfa_state(int new_state[]) {
         dfa_states[dfa_count][i] = new_state[i];
     }
     dfa_count++;
-    return dfa_count - 1;
 }
 
 int main() {
