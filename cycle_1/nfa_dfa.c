@@ -6,6 +6,8 @@ int dfa_states[100][10] = {0};
 int dfa_transition[100][5];
 
 int num_states, num_symbols;
+int dfa_count = 0;
+
 char input_symbols[5];
 
 // Find the index of an input symbol
@@ -27,20 +29,20 @@ int is_same_state(int a[], int b[]) {
 }
 
 // Add a new DFA state if it does not exist
-int add_dfa_state(int new_state[], int *dfa_count) {
+int add_dfa_state(int new_state[]) {
 
-    for (int i = 0; i < *dfa_count; i++) {
+    for (int i = 0; i < dfa_count; i++) {
         if (is_same_state(dfa_states[i], new_state))
             return i;
     }
 
     for (int i = 0; i < num_states; i++) {
-        dfa_states[*dfa_count][i] = new_state[i];
+        dfa_states[dfa_count][i] = new_state[i];
     }
 
-    (*dfa_count)++;
+    dfa_count++;
 
-    return *dfa_count - 1;
+    return dfa_count - 1;
 }
 
 int main() {
@@ -79,13 +81,12 @@ int main() {
 
     // Initial DFA state = {q0}
 
-    int dfa_count = 0;
     int current = 0;
 
     int start_set[10] = {0};
     start_set[0] = 1;
 
-    add_dfa_state(start_set, &dfa_count);
+    add_dfa_state(start_set);
 
     // Subset construction
 
@@ -125,7 +126,7 @@ int main() {
 
             if (!is_empty) {
                 dfa_transition[current][symbol_index] =
-                    add_dfa_state(next_set, &dfa_count);
+                    add_dfa_state(next_set);
             }
             else {
                 dfa_transition[current][symbol_index] = -1;
