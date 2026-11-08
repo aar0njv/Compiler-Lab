@@ -17,11 +17,13 @@ Compiler-Lab/
 │   ├── min_dfa.c
 │   └── nfa_dfa.c
 ├── cycle_2/
-│   ├── lex_11_101.l
-│   ├── lex_comments.l
-│   ├── lex_count.l
-│   ├── lex_name.l
-│   └── lex_replace_$.l
+│   ├── lex/
+|   │   ├── 
+|   │   ├── 
+│   ├── yacc/
+|       ├── 
+|       ├── 
+|
 ├── cycle_3/
 │   ├── first_follow.c
 │   ├── op.c
