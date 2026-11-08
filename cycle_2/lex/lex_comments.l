@@ -1,15 +1,16 @@
 %{
 #include <stdio.h>
 
-char output[10000];
-int out_idx = 0;
+char output[100];
+int out_index = 0;
+
 %}
 
 %%
 
 "//".*                      { /* Ignore single line comments */ }
 "/*".*"*/"                  { /* Ignore multi-line comments */ }
-.|\n                        { output[out_idx++] = yytext[0]; } /* Buffer valid code characters and newlines */
+.|\n                        { output[out_index++] = yytext[0]; } /* Buffer valid code characters and newlines */
 
 %%
 
@@ -18,12 +19,12 @@ int yywrap(void) {
 }
 
 int main() {
-    printf("Enter the code (Press Ctrl+Z then Enter to exit):\n");
+    printf("Enter the code (Press Ctrl+D to exit):\n");
     
     // Start scanning
     yylex(); 
     
-    output[out_idx] = '\0';
+    output[out_index] = '\0';
     printf("\n--- Output ---\n%s\n", output);
     
     return 0;

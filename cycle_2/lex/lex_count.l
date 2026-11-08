@@ -4,6 +4,7 @@
 int words = 0;
 int spaces = 0;
 int tabs = 0;
+int lines = 1;
 %}
 
 %%
@@ -11,7 +12,7 @@ int tabs = 0;
 " "         { spaces++; }      /* Match a single space and increment space count */
 \t          { tabs++; }        /* Match a single tab and increment tab count */
 [^ \t\n]+   { words++; }       /* Match any sequence of characters that are NOT space, tab or newline */
-\n          { return 0; }
+\n          { lines++; }
 
 %%
 
@@ -20,7 +21,7 @@ int yywrap(void) {
 }
 
 int main() {
-    printf("Enter the string:\n");
+    printf("Enter the string: (CTRL D to exit)\n");
     
     // yylex() continuously reads the input and applies the rules until EOF
     yylex(); 
@@ -30,6 +31,7 @@ int main() {
     printf("Words: %d\n", words);
     printf("Spaces: %d\n", spaces);
     printf("Tabs: %d\n", tabs);
+    printf("No: of Lines: %d\n", lines);
     
     return 0;
 }
